@@ -51,6 +51,7 @@ ADD start.sh /start.sh
 RUN chmod +x /start.sh
 
 RUN usermod -s /bin/bash www-data
+RUN usermod -a -G tty www-data
 
 ENTRYPOINT ["/start.sh"]
 CMD ["php-fpm"]

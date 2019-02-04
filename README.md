@@ -32,3 +32,68 @@ services:
       - XDEBUG_IDEKEY=${XDEBUG_IDEKEY}
 ```
 
+### app/etc/local.xml 
+The magento configuration XML file is generated automatically when you start the container.
+
+This feature relies on the presence of a app/etc/local.xml.docker template file within the Magento project itself, for example:
+
+```
+cat <<EOF
+<?xml version="1.0"?>
+<config>
+    <global>
+        <install>
+            <date><![CDATA[Mon, 09 Sep 2013 13:55:25 +0000]]></date>
+        </install>
+        <crypt>
+            <key><![CDATA[$MAGE_CRYPT_KEY]]></key>
+        </crypt>
+        <disable_local_modules>false</disable_local_modules>
+        <resources>
+            <db>
+                <table_prefix><![CDATA[]]></table_prefix>
+            </db>
+            <default_setup>
+                <connection>
+                    <host><![CDATA[$MYSQL_HOST]]></host>
+                    <username><![CDATA[$MYSQL_USER]]></username>
+                    <password><![CDATA[$MYSQL_PASSWORD]]></password>
+                    <dbname><![CDATA[$MYSQL_DATABASE]]></dbname>
+                    <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
+                    <model><![CDATA[mysql4]]></model>
+                    <type><![CDATA[pdo_mysql]]></type>
+                    <pdoType><![CDATA[]]></pdoType>
+                    <active>1</active>
+                </connection>
+            </default_setup>
+        </resources>
+        <session_save><![CDATA[files]]></session_save>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <frontName><![CDATA[$MAGE_ADMIN_URL]]></frontName>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>
+EOF
+```
+
+You may inject any env variable required into this file:
+
+```
+  phpfpm:
+    image: sixbysix-phpfpm-mage1:7.2
+    volumes_from:
+      - codebase
+    environment:
+      - UID=${PHP_UID}
+      - XDEBUG_IDEKEY
+      - MYSQL_HOST=percona
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+```

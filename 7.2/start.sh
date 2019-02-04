@@ -1,6 +1,7 @@
 #!/bin/bash
 
 usermod -u $UID www-data
+groupmod -g $UID www-data
 
 HOST_IP=`/sbin/ip route | awk '/default/ { print $3 }'`
 
@@ -20,4 +21,15 @@ cat >> /usr/local/etc/php/php.ini <<- EOF
   sendmail_path=/usr/bin/env catchmail -f $MAILCATCHER_SENDER --smtp-ip email --smtp-port 25
 EOF
 
-gosu www-data $@
+# generate app/etc/local.xml
+if [ -f "/var/www/app/etc/local.xml.docker" ]; then
+  gosu www-data bash -c 'eval "$(</var/www/app/etc/local.xml.docker)" > /var/www/app/etc/local.xml'
+else
+  echo "Could not create /var/www/app/etc/local.xml as there is no template at /var/www/app/etc/local.xml.docker"
+fi
+
+if [ "$@" = "php-fpm" ]; then
+  $@
+else
+  gosu www-data $@
+fi
