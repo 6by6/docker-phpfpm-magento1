@@ -5,6 +5,7 @@ A phpfpm container for Magento 1 developer use. Prebuilt with the following tool
 - [composer.phar](https://getcomposer.org)
 - [mageconfigsync](https://github.com/punkstar/mageconfigsync)
 - [n98-magerun.phar](https://github.com/netz98/n98-magerun)
+- [mailcatcher](https://mailcatcher.me/)
 - xdebug
 
 ## Usage
@@ -15,6 +16,8 @@ A phpfpm container for Magento 1 developer use. Prebuilt with the following tool
   <dd>This container uses [`gosu`](https://github.com/tianon/gosu) to convert the UID of the container www-data to whatever is required by the host. You should, therefore, pass a `UID` env variable containing the required value.</dd>
   <dt><strong>XDEBUG_IDEKEY</strong></dt>
   <dd>If you're looking using Xdebug for debugging in your IDE (phpstorm, for example) set this value to a unique project key so your IDE can authorise connections.</dd>
+  <dt><strong>MAILCATCHER_SENDER</strong></dt>
+  <dd>Sender email address for the mailcatcher container</dd>
 </dl> 
 
 **docker**
@@ -97,3 +100,8 @@ You may inject any env variable required into this file:
       - MYSQL_USER
       - MYSQL_PASSWORD
 ```
+
+## Mailcatcher
+
+*See [https://mailcatcher.me](https://mailcatcher.me) for description.*
+$MAILCATCHER_SENDER
