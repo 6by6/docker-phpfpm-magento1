@@ -47,7 +47,7 @@ RUN cd /tmp/ && curl https://files.magerun.net/n98-magerun.phar > /usr/local/bin
 RUN curl -L https://github.com/punkstar/mageconfigsync/releases/download/0.5.0-beta.1/mageconfigsync-0.5.0-beta.1.phar > /usr/local/bin/mageconfigsync
 RUN chmod +x /usr/local/bin/mageconfigsync
 
-ADD start.sh /start.sh
+ADD ./start.sh /start.sh
 RUN chmod +x /start.sh
 
 RUN usermod -s /bin/bash www-data
