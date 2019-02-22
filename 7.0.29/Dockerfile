@@ -1,4 +1,4 @@
-FROM php:5.6.40-fpm
+FROM php:7.0.29-fpm
 
 WORKDIR /var/www
 
@@ -29,7 +29,6 @@ RUN docker-php-ext-install \
   dom \
   gd \
   intl \
-  mcrypt \
   mbstring \
   pdo_mysql \
   xsl \
@@ -37,7 +36,7 @@ RUN docker-php-ext-install \
   soap
 
 # install xdebug
-RUN pecl install xdebug-2.5.5 && docker-php-ext-enable xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # install composer
 RUN cd /tmp/ && curl -s http://getcomposer.org/installer | php
