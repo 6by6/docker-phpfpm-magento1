@@ -7,7 +7,6 @@ RUN chmod +x /start.sh
 
 RUN apt-get update \
   && apt-get install -y \
-    gosu \
     iproute2 \
     libcurl3-dev \
     libfreetype6-dev \
@@ -19,6 +18,8 @@ RUN apt-get update \
     libxslt1-dev \
     mysql-client \
     ruby \
+    ruby-dev \
+    libsqlite3-dev \
     sendmail-bin \
     sendmail \
     sudo \
@@ -35,6 +36,8 @@ RUN docker-php-ext-install \
   xsl \
   zip \
   soap
+
+COPY --from=smartlyio/gosu:1.10-alpine /usr/local/bin/gosu /usr/local/bin/gosu
 
 # install xdebug
 RUN pecl install xdebug-2.5.5 && docker-php-ext-enable xdebug

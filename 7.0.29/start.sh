@@ -35,6 +35,10 @@ else
   echo "Could not create /var/www/app/etc/local.xml as there is no template at /var/www/app/etc/local.xml.docker"
 fi
 
+if [ ! -z "$DEV_MODE" ]; then
+export MAGE_IS_DEVELOPER_MODE=1
+fi
+
 if [[ "$@" = "php-fpm" ]]; then
   $@
 else

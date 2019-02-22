@@ -2,12 +2,8 @@ FROM php:7.2.14-fpm
 
 WORKDIR /var/www
 
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-
 RUN apt-get update \
   && apt-get install -y \
-    gosu \
     iproute2 \
     libcurl3-dev \
     libfreetype6-dev \
@@ -19,6 +15,8 @@ RUN apt-get update \
     libxslt1-dev \
     mysql-client \
     ruby \
+    ruby-dev \
+    libsqlite3-dev \
     sendmail-bin \
     sendmail \
     sudo \
@@ -34,6 +32,8 @@ RUN docker-php-ext-install \
   xsl \
   zip \
   soap
+
+COPY --from=smartlyio/gosu:1.10-alpine /usr/local/bin/gosu /usr/local/bin/gosu
 
 # install xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
@@ -53,6 +53,9 @@ RUN gem install mailcatcher
 
 RUN usermod -s /bin/bash www-data
 RUN usermod -a -G tty www-data
+
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 ENTRYPOINT ["/start.sh"]
 CMD ["php-fpm"]
