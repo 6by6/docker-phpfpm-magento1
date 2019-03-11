@@ -5,6 +5,10 @@ groupmod -g $UID www-data
 
 if [ -z "$NO_XDEBUG" ]; then
 
+if [ -z "$XDEBUG_PROFILER_DIR" ]; then
+    XDEBUG_PROFILER_DIR=/cachegrind
+fi
+
 HOST_IP=`/sbin/ip route | awk '/default/ { print $3 }'`
 
 cat > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini <<- EOF
@@ -19,6 +23,8 @@ xdebug.remote_host=$HOST_IP
 xdebug.remote_port=9000
 xdebug.remote_autostart=true
 xdebug.remote_handler=dbgp
+xdebug.profiler_enable_trigger=On
+xdebug.profiler_output_dir=$XDEBUG_PROFILER_DIR
 EOF
 fi
 
