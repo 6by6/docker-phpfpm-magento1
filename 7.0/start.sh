@@ -15,6 +15,8 @@ cat > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini <<- EOF
 zend_extension=xdebug.so
 EOF
 
+mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
 cat >> /usr/local/etc/php/php.ini <<- EOF
 xdebug.idekey=$XDEBUG_IDEKEY
 xdebug.remote_connect_back=Off
